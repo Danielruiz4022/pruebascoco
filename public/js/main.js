@@ -37,6 +37,83 @@ function initNavbar() {
   });
 }
 
+// ── ANIMATED COUNTERS ──
+function animateCounter(el, target, suffix) {
+  const duration = 1800;
+  const start = performance.now();
+  const update = now => {
+    const t = Math.min((now - start) / duration, 1);
+    const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    el.textContent = Math.floor(eased * target) + suffix;
+    if (t < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+function initCounters() {
+  const counters = document.querySelectorAll('.stat-number[data-count]');
+  if (!counters.length) return;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      animateCounter(el, parseInt(el.dataset.count), el.dataset.suffix || '');
+      io.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => io.observe(c));
+}
+
+// ── SECTION BADGES ANIMATE IN ──
+function initBadgeAnimations() {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.section-badge').forEach(b => io.observe(b));
+}
+
+// ── 3D TILT EFFECT ON CARDS ──
+function initTilt() {
+  const cards = document.querySelectorAll('.post-card, .video-card, .album-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width  - 0.5;
+      const y = (e.clientY - r.top)  / r.height - 0.5;
+      card.style.transform = `translateY(-8px) rotateX(${-y * 7}deg) rotateY(${x * 7}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+}
+
+// ── STAGGER GRID REVEAL ──
+function initStagger() {
+  const grids = [
+    document.querySelector('.posts-grid'),
+    document.querySelector('.videos-grid'),
+    document.querySelector('.albums-grid'),
+    document.querySelector('.social-grid'),
+  ];
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const cards = entry.target.querySelectorAll('.post-card,.video-card,.album-card,.social-card');
+      cards.forEach((card, i) => {
+        setTimeout(() => card.classList.add('visible'), i * 110);
+      });
+      io.unobserve(entry.target);
+    });
+  }, { threshold: 0.05 });
+  grids.forEach(g => g && io.observe(g));
+}
+
 // ── CAROUSEL ──
 let carouselIndex = 0;
 let carouselTimer;
@@ -46,7 +123,6 @@ function initCarousel(data) {
   const track = document.querySelector('.carousel-track');
   const dotsContainer = document.querySelector('.carousel-dots');
   if (!track) return;
-
   track.innerHTML = '';
   if (dotsContainer) dotsContainer.innerHTML = '';
 
@@ -101,7 +177,6 @@ function initCarousel(data) {
     dot.addEventListener('click', () => goToSlide(i));
     dotsContainer?.appendChild(dot);
   }
-
   startCarouselTimer();
   enableCarouselTouch(track);
 }
@@ -174,7 +249,7 @@ function renderPosts(posts) {
     const emoji = categoryEmojis[post.category] || '📖';
     const date = new Date(post.created_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
     const card = document.createElement('div');
-    card.className = 'post-card reveal';
+    card.className = 'post-card';
     card.innerHTML = `
       <div class="post-card-image">
         ${post.image_url
@@ -194,7 +269,6 @@ function renderPosts(posts) {
       </div>`;
     grid.appendChild(card);
   });
-  observeReveal();
 }
 
 function openPost(id) {
@@ -205,9 +279,9 @@ function openPost(id) {
       const tags = (() => { try { return JSON.parse(post.tags || '[]'); } catch(e) { return []; } })();
       const catClass = categoryClasses[post.category] || 'cat-general';
       const date = new Date(post.created_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
-      document.getElementById('modal-category').innerHTML = `<span class="category-badge ${catClass}">${post.category}</span>`;
+      document.getElementById('modal-category').innerHTML = `<span class="category-badge ${catClass}" style="position:static">${post.category}</span>`;
       document.getElementById('modal-title').textContent = post.title;
-      document.getElementById('modal-date').textContent = date;
+      document.getElementById('modal-date').textContent = '📅 ' + date;
       const paragraphs = post.content.split('\n\n').filter(p => p.trim());
       document.getElementById('modal-content').innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
       const imgContainer = document.getElementById('modal-image-container');
@@ -242,7 +316,7 @@ function renderVideos(videos) {
   }
   videos.forEach(v => {
     const card = document.createElement('div');
-    card.className = 'video-card reveal';
+    card.className = 'video-card';
     card.innerHTML = `
       <div class="video-thumbnail">
         ${v.thumbnail_url
@@ -258,13 +332,17 @@ function renderVideos(videos) {
     card.querySelector('.play-btn').addEventListener('click', () => openVideo(v.video_url, v.title));
     grid.appendChild(card);
   });
-  observeReveal();
 }
 
 function openVideo(url, title) {
   const overlay = document.getElementById('video-modal');
   const iframe = document.getElementById('video-iframe');
-  iframe.src = url + (url.includes('?') ? '&' : '?') + 'autoplay=1';
+  // Ensure proper YouTube embed URL with autoplay
+  let embedUrl = url;
+  if (url.includes('youtube.com/embed/')) {
+    embedUrl = url + (url.includes('?') ? '&' : '?') + 'autoplay=1&rel=0&modestbranding=1';
+  }
+  iframe.src = embedUrl;
   overlay.classList.add('active');
   document.body.style.overflow = 'hidden';
 }
@@ -291,7 +369,7 @@ function renderAlbums(albums) {
   }
   albums.forEach(album => {
     const card = document.createElement('div');
-    card.className = 'album-card reveal';
+    card.className = 'album-card';
     card.innerHTML = `
       <div class="album-cover">
         ${album.cover_url
@@ -308,7 +386,6 @@ function renderAlbums(albums) {
       </div>`;
     grid.appendChild(card);
   });
-  observeReveal();
 }
 
 // ── SOCIAL ──
@@ -327,28 +404,29 @@ function renderSocial(links) {
   grid.innerHTML = '';
   links.filter(l => l.visible).forEach(link => {
     const card = document.createElement('a');
-    card.className = 'social-card reveal';
+    card.className = 'social-card';
     card.href = link.url;
     card.target = '_blank';
     card.rel = 'noopener noreferrer';
     card.dataset.platform = link.platform;
-    const color = link.color || socialColors[link.platform] || '#fff';
+    const color = link.color || socialColors[link.platform] || '#555';
     card.innerHTML = `
-      <div class="social-icon-wrap" style="background:${color}22;border:2px solid ${color}55">
-        <span style="font-size:2rem">${socialIcons[link.platform] || '🌐'}</span>
+      <div class="social-icon-wrap" style="background:${color}18;border:2px solid ${color}44">
+        <span style="font-size:2.2rem">${socialIcons[link.platform] || '🌐'}</span>
       </div>
       <span class="social-platform">${link.platform}</span>
       <span class="social-followers" style="color:${color}">${link.followers}</span>
       <span style="font-size:0.8rem;color:var(--text-secondary)">seguidores</span>`;
     grid.appendChild(card);
   });
-  observeReveal();
 }
 
 // ── INTERSECTION OBSERVER ──
 function observeReveal() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
 }
@@ -357,6 +435,8 @@ function observeReveal() {
 async function init() {
   createParticles();
   initNavbar();
+  initCounters();
+  initBadgeAnimations();
   observeReveal();
 
   try {
@@ -372,6 +452,11 @@ async function init() {
     renderVideos(videosRes.videos);
     renderAlbums(albumsRes.albums);
     renderSocial(socialRes.social);
+    // Init stagger and tilt after DOM is populated
+    requestAnimationFrame(() => {
+      initStagger();
+      initTilt();
+    });
   } catch (err) {
     console.error('Error loading data:', err);
     initCarousel([]);

@@ -7,7 +7,7 @@
   <meta name="description" content="Divulgación científica sobre ecoturismo, biología, medio ambiente y desarrollo sustentable.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -24,7 +24,6 @@
     <li><a href="#videos">Videos</a></li>
     <li><a href="#albums">Galería</a></li>
     <li><a href="#redes">Redes</a></li>
-    <li><a href="/admin" class="nav-cta">Admin ↗</a></li>
   </ul>
   <div class="hamburger" role="button" tabindex="0" aria-label="Menú">
     <span></span><span></span><span></span>
@@ -36,13 +35,22 @@
   <div class="hero-bg"></div>
   <div class="hero-texture"></div>
   <div class="particles"></div>
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+  <div class="hero-blob hero-blob-3"></div>
+  <span class="botanical b1">🌿</span>
+  <span class="botanical b2">🌴</span>
+  <span class="botanical b3">🦋</span>
+  <span class="botanical b4">🌺</span>
+  <span class="botanical b5">🐠</span>
+  <span class="botanical b6">🌱</span>
   <div class="hero-content">
     <div class="hero-badge">🌱 Ciencia · Naturaleza · Sustentabilidad</div>
     <h1>
-      Donde la <span class="highlight">Ciencia</span><br>
-      se Encuentra con la <span class="highlight">Naturaleza</span>
+      <span class="line1">Donde la <em class="highlight">Ciencia</em></span>
+      <span class="line2">se Encuentra con la <em class="highlight">Naturaleza</em></span>
     </h1>
-    <p>
+    <p class="hero-desc">
       Exploramos la biodiversidad, el ecoturismo, la biología tropical y el desarrollo
       sustentable. Ciencia viva, contada con pasión, desde los ecosistemas más fascinantes del planeta.
     </p>
@@ -52,22 +60,30 @@
     </div>
     <div class="hero-stats">
       <div class="stat-item">
-        <div class="stat-number">5+</div>
+        <div class="stat-number" data-count="5" data-suffix="+">5+</div>
         <div class="stat-label">Artículos</div>
       </div>
+      <div class="stat-divider"></div>
       <div class="stat-item">
-        <div class="stat-number">3+</div>
+        <div class="stat-number" data-count="3" data-suffix="+">3+</div>
         <div class="stat-label">Videos</div>
       </div>
+      <div class="stat-divider"></div>
       <div class="stat-item">
-        <div class="stat-number">50K+</div>
+        <div class="stat-number" data-count="50" data-suffix="K+">50K+</div>
         <div class="stat-label">Seguidores</div>
       </div>
+      <div class="stat-divider"></div>
       <div class="stat-item">
         <div class="stat-number">∞</div>
         <div class="stat-label">Ecosistemas</div>
       </div>
     </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#EDF7F0"/>
+    </svg>
   </div>
 </section>
 
@@ -86,6 +102,11 @@
     </div>
     <div class="carousel-dots"></div>
   </div>
+  <div class="wave-sep">
+    <svg viewBox="0 0 1440 55" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,28 C360,55 1080,0 1440,28 L1440,55 L0,55 Z" fill="#ffffff"/>
+    </svg>
+  </div>
 </section>
 
 <!-- POSTS -->
@@ -101,6 +122,11 @@
       <div class="skeleton skeleton-card"></div>
       <div class="skeleton skeleton-card"></div>
     </div>
+  </div>
+  <div class="wave-sep">
+    <svg viewBox="0 0 1440 55" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,28 C480,0 960,55 1440,28 L1440,55 L0,55 Z" fill="#EDF7F0"/>
+    </svg>
   </div>
 </section>
 
@@ -118,6 +144,11 @@
       <div class="skeleton skeleton-card"></div>
     </div>
   </div>
+  <div class="wave-sep">
+    <svg viewBox="0 0 1440 55" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,28 C360,55 1080,0 1440,28 L1440,55 L0,55 Z" fill="#ffffff"/>
+    </svg>
+  </div>
 </section>
 
 <!-- ALBUMS -->
@@ -132,6 +163,11 @@
       <div class="skeleton skeleton-card"></div>
       <div class="skeleton skeleton-card"></div>
     </div>
+  </div>
+  <div class="wave-sep">
+    <svg viewBox="0 0 1440 55" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,28 C480,55 960,0 1440,28 L1440,55 L0,55 Z" fill="#E0F2E6"/>
+    </svg>
   </div>
 </section>
 
@@ -149,6 +185,11 @@
       <div class="skeleton" style="height:200px;border-radius:16px"></div>
     </div>
   </div>
+  <div class="wave-sep">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#0D2B18"/>
+    </svg>
+  </div>
 </section>
 
 <!-- FOOTER -->
@@ -160,6 +201,7 @@
           <span class="leaf">🌿</span><span class="coco">Coco</span><span class="cientifico">Científico</span>
         </a>
         <p>Hacemos la ciencia de la naturaleza accesible y apasionante. Ecoturismo, biología tropical, conservación y sustentabilidad para todos.</p>
+        <a href="/admin" class="admin-hint-link" title="Panel de administración">⚙</a>
       </div>
       <div class="footer-col">
         <h4>Secciones</h4>
@@ -177,14 +219,6 @@
           <li><a href="#">Biología</a></li>
           <li><a href="#">Conservación</a></li>
           <li><a href="#">Sustentabilidad</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Admin</h4>
-        <ul>
-          <li><a href="/admin">Panel Admin</a></li>
-          <li><a href="/admin">Gestionar Posts</a></li>
-          <li><a href="/admin">Subir Media</a></li>
         </ul>
       </div>
     </div>
@@ -210,11 +244,16 @@
   </div>
 </div>
 
-<!-- VIDEO MODAL -->
+<!-- VIDEO MODAL — allow completo para YouTube -->
 <div class="video-modal-overlay" id="video-modal">
   <div class="video-modal-inner">
     <button class="video-modal-close" id="video-modal-close">✕</button>
-    <iframe id="video-iframe" allowfullscreen allow="autoplay; fullscreen"></iframe>
+    <iframe
+      id="video-iframe"
+      allowfullscreen
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></iframe>
   </div>
 </div>
 

@@ -56,8 +56,115 @@ function formatDate(str) {
 }
 
 function categoryBadgeClass(cat) {
-  const map = { 'Astronomía': 'astronomia', 'Biología': 'biologia', 'Tecnología': 'tecnologia', 'Física': 'fisica' };
+  const map = {
+    'Ecoturismo': 'ecoturismo', 'Biología': 'biologia', 'Medio Ambiente': 'sustentable',
+    'Sustentable': 'sustentable', 'Oceanografía': 'oceanografia',
+    'Conservación': 'conservacion', 'Turismo': 'ecoturismo', 'General': 'general'
+  };
   return 'badge-' + (map[cat] || 'general');
+}
+
+/* ─── YOUTUBE UTILS ─── */
+function extractYouTubeId(url) {
+  if (!url) return null;
+  const patterns = [
+    /youtube\.com\/embed\/([^?&]+)/,
+    /youtube\.com\/watch\?v=([^&]+)/,
+    /youtu\.be\/([^?]+)/,
+    /youtube\.com\/shorts\/([^?]+)/,
+  ];
+  for (const p of patterns) {
+    const m = url.match(p);
+    if (m) return m[1];
+  }
+  return null;
+}
+
+function autoFillThumbnail(url) {
+  const id = extractYouTubeId(url);
+  const thumbInput = $('video-thumbnail');
+  const preview = $('video-thumb-preview');
+  const img = $('video-thumb-img');
+  if (id) {
+    const thumbUrl = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+    if (thumbInput && !thumbInput.value) thumbInput.value = thumbUrl;
+    if (preview && img) {
+      img.src = thumbUrl;
+      preview.style.display = 'block';
+    }
+  } else {
+    if (preview) preview.style.display = 'none';
+  }
+}
+
+/* ─── CATEGORY CHART ─── */
+function drawCategoryChart(posts) {
+  const chart = $('category-chart');
+  if (!chart) return;
+  const counts = {};
+  posts.forEach(p => { counts[p.category] = (counts[p.category] || 0) + 1; });
+  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const max = sorted[0]?.[1] || 1;
+  const colors = {
+    'Ecoturismo': '#0E9AA7', 'Biología': '#27AE60', 'Medio Ambiente': '#1B6B3A',
+    'Sustentable': '#E67E22', 'Oceanografía': '#0571A0', 'Conservación': '#155729',
+    'Turismo': '#F39C12', 'General': '#6B9E7E'
+  };
+  chart.innerHTML = sorted.map(([cat, n]) => `
+    <div class="chart-row">
+      <span class="chart-label">${cat}</span>
+      <div class="chart-bar-wrap">
+        <div class="chart-bar" style="width:${(n/max*100).toFixed(1)}%;background:linear-gradient(90deg,${colors[cat]||'var(--primary)'},${colors[cat]||'var(--primary)'}aa)"></div>
+      </div>
+      <span class="chart-count">${n}</span>
+    </div>`).join('') || '<p style="color:var(--text-muted);text-align:center">Sin datos</p>';
+}
+
+/* ─── WORD COUNT ─── */
+function initPostEditorHelpers() {
+  const content = $('post-content');
+  const wc = $('content-wordcount');
+  if (content && wc) {
+    const update = () => {
+      const words = content.value.trim().split(/\s+/).filter(Boolean).length;
+      wc.textContent = `${words} palabra${words !== 1 ? 's' : ''}`;
+    };
+    content.addEventListener('input', update);
+    update();
+  }
+
+  const excerpt = $('post-excerpt');
+  const cc = $('excerpt-counter');
+  if (excerpt && cc) {
+    const update = () => {
+      const len = excerpt.value.length;
+      cc.textContent = `${len}/300`;
+      cc.className = 'char-counter' + (len > 280 ? ' warn' : '') + (len >= 300 ? ' full' : '');
+    };
+    excerpt.addEventListener('input', update);
+    update();
+  }
+
+  const title = $('post-title');
+  const slugPreview = $('slug-preview');
+  const slugText = $('slug-preview-text');
+  if (title && slugPreview && slugText) {
+    title.addEventListener('input', () => {
+      const slug = title.value.trim()
+        .toLowerCase()
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+      if (slug) {
+        slugText.textContent = `/posts/${slug}`;
+        slugPreview.style.display = 'block';
+      } else {
+        slugPreview.style.display = 'none';
+      }
+    });
+  }
 }
 
 /* ─── AUTH ─── */
@@ -210,7 +317,7 @@ async function loadDashboard() {
         item.className = 'activity-item';
         item.innerHTML = `
           <div class="activity-dot activity-dot-post"></div>
-          <span class="activity-text"><strong>${p.title}</strong> — <span class="badge ${categoryBadgeClass(p.category)}">${p.category}</span></span>
+          <span class="activity-text"><strong>${p.title}</strong> — <span class="badge badge-${categoryBadgeClass(p.category)}">${p.category}</span></span>
           <span class="activity-time">${formatDate(p.created_at)}</span>`;
         recentPosts.appendChild(item);
       });
@@ -218,6 +325,10 @@ async function loadDashboard() {
         recentPosts.innerHTML = '<div class="activity-item"><span class="activity-text" style="color:var(--text-muted)">No hay artículos</span></div>';
       }
     }
+
+    // Draw category chart with all posts
+    drawCategoryChart(postsRes?.posts || []);
+
   } catch (err) {
     console.error('Error loading dashboard:', err);
   }
@@ -257,11 +368,13 @@ async function loadPosts() {
 
 function openNewPost() {
   editingPost = null;
-  $('post-modal-title').textContent = '➕ Nuevo Artículo';
+  $('post-modal-title').textContent = '✍️ Nuevo Artículo';
   $('post-form').reset();
   $('post-image-preview').innerHTML = '';
   $('post-image-preview').style.display = 'none';
+  $('slug-preview').style.display = 'none';
   $('post-modal').classList.add('active');
+  setTimeout(initPostEditorHelpers, 50);
 }
 
 async function openEditPost(id) {
@@ -289,6 +402,7 @@ async function openEditPost(id) {
   }
 
   $('post-modal').classList.add('active');
+  setTimeout(initPostEditorHelpers, 50);
 }
 
 $('post-form')?.addEventListener('submit', async e => {
@@ -725,5 +839,6 @@ window.confirmDeleteMedia = confirmDeleteMedia;
 window.closeModal = closeModal;
 window.navigateTo = navigateTo;
 window._adminNavigate = navigateTo;
+window.autoFillThumbnail = autoFillThumbnail;
 
 document.addEventListener('DOMContentLoaded', checkAuth);
