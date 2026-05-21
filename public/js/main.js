@@ -52,9 +52,9 @@ function initCarousel(data) {
 
   if (!data || data.length === 0) {
     const placeholders = [
-      { title: 'Astronomía y Cosmología', sub: 'Explorando los confines del universo', emoji: '🌌', cls: 'slide-gradient-1' },
-      { title: 'Biología Molecular', sub: 'Descubriendo los secretos de la vida', emoji: '🧬', cls: 'slide-gradient-2' },
-      { title: 'Física Cuántica', sub: 'La extraña realidad subatómica', emoji: '⚛️', cls: 'slide-gradient-3' },
+      { title: 'Selvas y Bosques Tropicales', sub: 'La mayor biodiversidad del planeta', emoji: '🌴', cls: 'slide-nature-1' },
+      { title: 'Arrecifes de Coral', sub: 'Los bosques del océano en peligro', emoji: '🐠', cls: 'slide-nature-2' },
+      { title: 'Ecoturismo Responsable', sub: 'Viajar para conservar, no para destruir', emoji: '🌿', cls: 'slide-nature-3' },
     ];
     placeholders.forEach((p, i) => {
       slides.push({ title: p.title, sub: p.sub });
@@ -150,14 +150,14 @@ document.querySelector('.carousel-next')?.addEventListener('click', () => {
 
 // ── POSTS ──
 const categoryEmojis = {
-  'Astronomía': '🌌', 'Biología': '🧬', 'Tecnología': '💻',
-  'Física': '⚛️', 'Medio Ambiente': '🌿', 'Química': '🔬',
-  'General': '📖'
+  'Ecoturismo': '🌴', 'Biología': '🦋', 'Medio Ambiente': '🌿',
+  'Sustentable': '♻️', 'Oceanografía': '🐠', 'Conservación': '🌱',
+  'Turismo': '🗺️', 'General': '🔬'
 };
 const categoryClasses = {
-  'Astronomía': 'cat-astronomia', 'Biología': 'cat-biologia', 'Tecnología': 'cat-tecnologia',
-  'Física': 'cat-fisica', 'Medio Ambiente': 'cat-medio-ambiente', 'Química': 'cat-quimica',
-  'General': 'cat-general'
+  'Ecoturismo': 'cat-ecoturismo', 'Biología': 'cat-biologia', 'Medio Ambiente': 'cat-medio-ambiente',
+  'Sustentable': 'cat-sustentable', 'Oceanografía': 'cat-oceanografia', 'Conservación': 'cat-conservacion',
+  'Turismo': 'cat-turismo', 'General': 'cat-general'
 };
 
 function renderPosts(posts) {

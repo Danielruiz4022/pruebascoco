@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CocoCientifico — Ciencia para Todos</title>
-  <meta name="description" content="Divulgación científica moderna y apasionante. Astronomía, biología, física, tecnología y más.">
+  <title>CocoCientifico — Ciencia, Naturaleza y Ecoturismo</title>
+  <meta name="description" content="Divulgación científica sobre ecoturismo, biología, medio ambiente y desarrollo sustentable.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
 <!-- NAVBAR -->
 <nav class="navbar">
-  <a href="#" class="nav-logo">Coco<span>Cientifico</span></a>
+  <a href="#" class="nav-logo">
+    <span class="leaf">🌿</span>
+    <span class="coco">Coco</span><span class="cientifico">Científico</span>
+  </a>
   <ul class="nav-links">
     <li><a href="#inicio">Inicio</a></li>
     <li><a href="#posts">Artículos</a></li>
@@ -31,13 +34,20 @@
 <!-- HERO -->
 <section class="hero" id="inicio">
   <div class="hero-bg"></div>
+  <div class="hero-texture"></div>
   <div class="particles"></div>
   <div class="hero-content">
-    <div class="hero-badge">🔬 Divulgación Científica</div>
-    <h1>Descubre la Ciencia que Transforma el Mundo</h1>
-    <p>Exploramos los misterios del universo, la tecnología del futuro y la naturaleza de la realidad. Ciencia explicada de forma apasionante para todos.</p>
+    <div class="hero-badge">🌱 Ciencia · Naturaleza · Sustentabilidad</div>
+    <h1>
+      Donde la <span class="highlight">Ciencia</span><br>
+      se Encuentra con la <span class="highlight">Naturaleza</span>
+    </h1>
+    <p>
+      Exploramos la biodiversidad, el ecoturismo, la biología tropical y el desarrollo
+      sustentable. Ciencia viva, contada con pasión, desde los ecosistemas más fascinantes del planeta.
+    </p>
     <div class="hero-buttons">
-      <a href="#posts" class="btn-primary">🚀 Explorar Artículos</a>
+      <a href="#posts" class="btn-primary">🌿 Explorar Artículos</a>
       <a href="#videos" class="btn-secondary">▶ Ver Videos</a>
     </div>
     <div class="hero-stats">
@@ -55,7 +65,7 @@
       </div>
       <div class="stat-item">
         <div class="stat-number">∞</div>
-        <div class="stat-label">Curiosidad</div>
+        <div class="stat-label">Ecosistemas</div>
       </div>
     </div>
   </div>
@@ -65,9 +75,9 @@
 <section class="carousel-section" id="galeria">
   <div class="container">
     <div class="section-header">
-      <div class="section-badge">📸 Galería</div>
-      <h2 class="section-title">Imágenes del Cosmos</h2>
-      <p class="section-sub">Una ventana visual al universo de la ciencia</p>
+      <div class="section-badge">📸 Galería Natural</div>
+      <h2 class="section-title">Imágenes del Mundo Natural</h2>
+      <p class="section-sub">Una ventana visual a los ecosistemas más extraordinarios del planeta</p>
     </div>
     <div class="carousel-container reveal">
       <div class="carousel-track"></div>
@@ -82,12 +92,11 @@
 <section class="posts-section" id="posts">
   <div class="container">
     <div class="section-header">
-      <div class="section-badge">📖 Artículos</div>
-      <h2 class="section-title">Divulgación Científica</h2>
-      <p class="section-sub">Los temas más fascinantes de la ciencia actual, explicados para todos</p>
+      <div class="section-badge">📖 Divulgación</div>
+      <h2 class="section-title">Artículos Científicos</h2>
+      <p class="section-sub">Biología, ecoturismo, conservación ambiental y desarrollo sustentable explicados para todos</p>
     </div>
     <div class="posts-grid" id="posts-grid">
-      <!-- Skeleton loaders -->
       <div class="skeleton skeleton-card"></div>
       <div class="skeleton skeleton-card"></div>
       <div class="skeleton skeleton-card"></div>
@@ -100,8 +109,8 @@
   <div class="container">
     <div class="section-header">
       <div class="section-badge">🎬 Videos</div>
-      <h2 class="section-title">Ciencia en Video</h2>
-      <p class="section-sub">Explicaciones visuales de los fenómenos más fascinantes del universo</p>
+      <h2 class="section-title">Naturaleza en Movimiento</h2>
+      <p class="section-sub">Documentales cortos y explicaciones visuales de los ecosistemas más fascinantes</p>
     </div>
     <div class="videos-grid" id="videos-grid">
       <div class="skeleton skeleton-card"></div>
@@ -116,8 +125,8 @@
   <div class="container">
     <div class="section-header">
       <div class="section-badge">🖼️ Álbumes</div>
-      <h2 class="section-title">Galerías Fotográficas</h2>
-      <p class="section-sub">Colecciones de imágenes científicas cuidadosamente seleccionadas</p>
+      <h2 class="section-title">Galerías de Campo</h2>
+      <p class="section-sub">Fotografías de expediciones, fauna, flora y paisajes naturales</p>
     </div>
     <div class="albums-grid" id="albums-grid">
       <div class="skeleton skeleton-card"></div>
@@ -130,9 +139,9 @@
 <section class="social-section" id="redes">
   <div class="container">
     <div class="section-header">
-      <div class="section-badge">🌐 Redes Sociales</div>
-      <h2 class="section-title">Síguenos en Redes</h2>
-      <p class="section-sub">Únete a nuestra comunidad científica en todas las plataformas</p>
+      <div class="section-badge">🌐 Comunidad</div>
+      <h2 class="section-title">Únete a la Comunidad</h2>
+      <p class="section-sub">Síguenos en redes para contenido diario sobre naturaleza, ciencia y ecoturismo</p>
     </div>
     <div class="social-grid" id="social-grid">
       <div class="skeleton" style="height:200px;border-radius:16px"></div>
@@ -147,8 +156,10 @@
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
-        <div class="nav-logo" style="font-size:1.2rem">Coco<span style="-webkit-text-fill-color:var(--accent)">Cientifico</span></div>
-        <p>Hacemos la ciencia accesible, apasionante y cercana para todos. Desde el cosmos hasta el interior de la célula, la ciencia es nuestro universo.</p>
+        <a href="#" class="nav-logo" style="font-size:1.2rem">
+          <span class="leaf">🌿</span><span class="coco">Coco</span><span class="cientifico">Científico</span>
+        </a>
+        <p>Hacemos la ciencia de la naturaleza accesible y apasionante. Ecoturismo, biología tropical, conservación y sustentabilidad para todos.</p>
       </div>
       <div class="footer-col">
         <h4>Secciones</h4>
@@ -160,26 +171,27 @@
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Categorías</h4>
+        <h4>Temáticas</h4>
         <ul>
-          <li><a href="#">Astronomía</a></li>
+          <li><a href="#">Ecoturismo</a></li>
           <li><a href="#">Biología</a></li>
-          <li><a href="#">Física</a></li>
-          <li><a href="#">Tecnología</a></li>
+          <li><a href="#">Conservación</a></li>
+          <li><a href="#">Sustentabilidad</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Admin</h4>
         <ul>
           <li><a href="/admin">Panel Admin</a></li>
-          <li><a href="/admin#posts">Gestionar Posts</a></li>
-          <li><a href="/admin#media">Subir Media</a></li>
+          <li><a href="/admin">Gestionar Posts</a></li>
+          <li><a href="/admin">Subir Media</a></li>
         </ul>
       </div>
     </div>
+    <div class="nature-divider">🌿 🦋 🌺 🐠 🌴</div>
     <div class="footer-bottom">
       <p>© 2025 CocoCientifico — Todos los derechos reservados</p>
-      <p>Hecho con 🔬 y pasión por la ciencia</p>
+      <p>Hecho con 🌿 y pasión por la naturaleza</p>
     </div>
   </div>
 </footer>
